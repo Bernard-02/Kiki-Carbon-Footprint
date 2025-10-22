@@ -1,0 +1,20 @@
+# Firebase 配置（包含敏感資訊，不要上傳到 GitHub）
+# firebase-config.js
+
+# 如果你決定將 API Key 公開，可以註解掉上面這行
+# Firebase Web API Key 本身是安全的，安全性由 Firebase 規則控制
+
+# Node modules (如果使用 npm)
+node_modules/
+
+# 編輯器配置
+.vscode/
+.idea/
+
+# 系統文件
+.DS_Store
+Thumbs.db
+
+# 臨時文件
+*.log
+*.tmp

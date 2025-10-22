@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>測試 - 碳足跡視覺化</title>
+    <link rel="stylesheet" href="carbon.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <div id="totalFootprint">
+        <p class="total-label">累計碳足跡</p>
+        <p class="total-value">0.00000000 gCO2</p>
+    </div>
+
+    <!-- 簡單測試腳本 -->
+    <script>
+        console.log('✅ HTML 已載入');
+        console.log('p5.js 是否載入?', typeof createCanvas);
+
+        // p5.js setup
+        function setup() {
+            console.log('✅ p5.js setup 執行了！');
+            let canvas = createCanvas(windowWidth, windowHeight);
+            canvas.parent('canvas-container');
+            background(26, 26, 26);
+
+            // 測試繪製一個白色圓圈
+            fill(255);
+            noStroke();
+            circle(200, 200, 50);
+            console.log('✅ 繪製了一個測試圓圈');
+        }
+
+        function draw() {
+            // 什麼都不做
+        }
+    </script>
+</body>
+</html>

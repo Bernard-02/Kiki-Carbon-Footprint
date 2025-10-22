@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8-bit Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 首頁 -->
+    <div id="homePage" class="page">
+        <div class="container">
+            <h1 class="title">GAME START</h1>
+            <button id="btn1" class="game-button btn-cyan">BUTTON 1</button>
+            <button id="btn2" class="game-button btn-red">BUTTON 2</button>
+            <p class="timer-text">5秒內無操作將自動關閉</p>
+        </div>
+    </div>
+
+    <!-- 輸入頁面 -->
+    <div id="inputPage" class="page hidden">
+        <div class="container">
+            <h2 class="subtitle">輸入文字</h2>
+            <textarea id="textInput" placeholder="在這裡輸入..."></textarea>
+            <button id="submitBtn" class="game-button btn-yellow">丟下</button>
+        </div>
+    </div>
+
+    <!-- 自定義提示視窗 -->
+    <div id="alertModal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <h2 class="modal-title">請輸入文字</h2>
+            <button id="modalOkBtn" class="game-button btn-cyan">OK</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>
