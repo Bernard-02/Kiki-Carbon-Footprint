@@ -177,20 +177,36 @@ document.getElementById('modalOkBtn').addEventListener('click', () => {
     closeAlert();
 });
 
-// 5秒自動關閉
-setTimeout(async () => {
-    if (!buttonClicked) {
-        console.log('⏳ 5 秒內未點擊，寫入 "no_click"');
+// 等待頁面完全載入後才開始 5 秒倒數
+window.addEventListener('load', () => {
+    console.log('✅ 頁面已完全載入，開始 5 秒倒數');
 
-        const footprint = calculateCarbonFootprint('no_click');
-        saveToLocalStorage('no_click');
-        await saveCarbonData('no_click', footprint);
+    // 隱藏載入畫面，顯示主頁面
+    const loadingScreen = document.getElementById('loadingScreen');
+    const homePage = document.getElementById('homePage');
 
-        // 延遲關閉以確保 Firebase 寫入完成
-        setTimeout(() => {
-            console.log('👋 準備關閉頁面');
-            window.close();
-        }, 500);
+    if (loadingScreen) {
+        loadingScreen.style.display = 'none';
     }
-}, 5000);
+    if (homePage) {
+        homePage.style.opacity = '1';
+        homePage.style.transition = 'opacity 0.3s';
+    }
+
+    setTimeout(async () => {
+        if (!buttonClicked) {
+            console.log('⏳ 5 秒內未點擊，寫入 "no_click"');
+
+            const footprint = calculateCarbonFootprint('no_click');
+            saveToLocalStorage('no_click');
+            await saveCarbonData('no_click', footprint);
+
+            // 延遲關閉以確保 Firebase 寫入完成
+            setTimeout(() => {
+                console.log('👋 準備關閉頁面');
+                window.close();
+            }, 500);
+        }
+    }, 5000);
+});
 
