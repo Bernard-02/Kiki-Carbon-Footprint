@@ -1,5 +1,5 @@
-# Firebase 配置（包含敏感資訊，不要上傳到 GitHub）
-# firebase-config.js
+# Firebase 配置（包含真實 API Key，不要上傳到 GitHub）
+firebase-config-real.js
 
 # 如果你決定將 API Key 公開，可以註解掉上面這行
 # Firebase Web API Key 本身是安全的，安全性由 Firebase 規則控制

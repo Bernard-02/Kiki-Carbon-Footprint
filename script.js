@@ -177,18 +177,20 @@ document.getElementById('modalOkBtn').addEventListener('click', () => {
     closeAlert();
 });
 
-// 5秒自動關閉 (暂时禁用以便测试排版)
-/*
-setTimeout(() => {
+// 5秒自動關閉
+setTimeout(async () => {
     if (!buttonClicked) {
         console.log('⏳ 5 秒內未點擊，寫入 "no_click"');
 
         const footprint = calculateCarbonFootprint('no_click');
         saveToLocalStorage('no_click');
-        saveCarbonData('no_click', footprint);
+        await saveCarbonData('no_click', footprint);
 
-        window.close();
+        // 延遲關閉以確保 Firebase 寫入完成
+        setTimeout(() => {
+            console.log('👋 準備關閉頁面');
+            window.close();
+        }, 500);
     }
 }, 5000);
-*/
 
