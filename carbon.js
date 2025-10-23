@@ -59,19 +59,47 @@ class Bubble {
         // 碳足跡文字
         this.label = `${footprint.toFixed(8)} gCO2`;
 
+        // 判斷是否為頁面存在碳足跡
+        this.isPageExistence = (action === 'page_existence');
+
         // 新圓圈動畫屬性
         if (isExisting) {
             // 已存在的資料，直接顯示為正常狀態（深灰色）
             this.isNew = false;
             this.scale = 1.0;
-            this.colorValue = 60; // 深灰色
+            this.isGrayscale = true; // 標記為灰階
         } else {
             // 新圓圈，需要動畫
             this.isNew = true;
             this.scale = 1.2; // 初始放大1.2倍
-            this.colorValue = 255; // 初始為白色
             this.creationTime = millis(); // 記錄創建時間
+            this.isGrayscale = false; // 標記為彩色
+
+            if (this.isPageExistence) {
+                // 頁面存在碳足跡：白色
+                this.r = 255;
+                this.g = 255;
+                this.b = 255;
+                this.duration = 2000; // 2秒過渡
+            } else {
+                // 用戶操作碳足跡：隨機彩色
+                // 產生隨機顏色（避免灰階）
+                // 確保 R, G, B 至少有兩個值差異大於 50，避免灰階
+                do {
+                    this.r = random(100, 255);
+                    this.g = random(100, 255);
+                    this.b = random(100, 255);
+                } while (
+                    Math.abs(this.r - this.g) < 50 &&
+                    Math.abs(this.g - this.b) < 50 &&
+                    Math.abs(this.r - this.b) < 50
+                );
+                this.duration = 5000; // 5秒過渡
+            }
         }
+
+        // 最終的灰色值
+        this.finalGray = 60;
     }
 
     getSize(footprint) {
@@ -82,26 +110,27 @@ class Bubble {
     }
 
     update() {
-        // 處理新圓圈的動畫效果（2秒過渡）
+        // 處理新圓圈的動畫效果
         if (this.isNew) {
             const elapsed = millis() - this.creationTime;
-            const duration = 2000; // 2秒
 
-            if (elapsed < duration) {
+            if (elapsed < this.duration) {
                 // 使用 easeOutCubic 緩動函數
-                const progress = elapsed / duration;
+                const progress = elapsed / this.duration;
                 const eased = 1 - Math.pow(1 - progress, 3);
 
                 // 從 1.2 縮放到 1.0
                 this.scale = 1.2 - (0.2 * eased);
 
-                // 從 255 (白色) 漸變到 60 (深灰色)
-                this.colorValue = 255 - ((255 - 60) * eased);
+                // 從初始顏色（白色或隨機彩色）漸變到灰色 (60, 60, 60)
+                this.currentR = this.r - ((this.r - this.finalGray) * eased);
+                this.currentG = this.g - ((this.g - this.finalGray) * eased);
+                this.currentB = this.b - ((this.b - this.finalGray) * eased);
             } else {
                 // 動畫完成，變成一般圓圈（灰色）
                 this.isNew = false;
                 this.scale = 1.0;
-                this.colorValue = 60;
+                this.isGrayscale = true;
             }
         }
 
@@ -126,8 +155,15 @@ class Bubble {
     }
 
     display() {
-        // 使用當前顏色值繪製圓圈（從白色255漸變到深灰色60）
-        fill(this.colorValue, this.colorValue, this.colorValue);
+        // 根據狀態決定顏色
+        if (this.isGrayscale) {
+            // 灰色圓圈
+            fill(this.finalGray, this.finalGray, this.finalGray);
+        } else {
+            // 彩色圓圈（新增或過渡中）
+            fill(this.currentR, this.currentG, this.currentB);
+        }
+
         noStroke();
         circle(this.x, this.y, this.size);
 
